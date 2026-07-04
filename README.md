@@ -1,6 +1,6 @@
 # OsintFlow
 
-> Panel de control centralizado de **OSINT** (Open Source Intelligence) con una interfaz minimalista en blanco y negro. Seis herramientas de investigación en una sola aplicación web, lista para levantar con un único comando de Docker.
+> Panel de control centralizado de **OSINT** (Open Source Intelligence) con una interfaz minimalista en blanco y negro. **Trece herramientas** de investigación en una sola aplicación web, lista para levantar con un único comando de Docker.
 
 ---
 
@@ -14,7 +14,14 @@
    - [3. Reconocimiento de IP y Dominio](#3-reconocimiento-de-ip-y-dominio)
    - [4. Búsqueda de Teléfono](#4-búsqueda-de-teléfono)
    - [5. Extractor de Metadatos EXIF](#5-extractor-de-metadatos-exif)
-   - [6. Historial y Exportación](#6-historial-y-exportación)
+   - [6. Analizador de Enlaces](#6-analizador-de-enlaces-url-unshortener--wayback)
+   - [7. Búsqueda Inversa de Imágenes](#7-búsqueda-inversa-de-imágenes-reverse-image-search)
+   - [8. Generador de Google Dorks](#8-generador-de-google-dorks-dork-builder)
+   - [9. Escáner de Subdominios y SSL](#9-escáner-de-subdominios-y-ssl)
+   - [10. Extractor de Metadatos de Documentos](#10-extractor-de-metadatos-de-documentos)
+   - [11. Comprobador de Filtraciones (HIBP)](#11-comprobador-de-filtraciones-haveibeenpwned)
+   - [12. Buscador de Claves PGP](#12-buscador-de-claves-pgp)
+   - [13. Historial y Exportación](#13-historial-y-exportación)
 4. [Requisitos previos (instalar Docker)](#-requisitos-previos-instalar-docker)
    - [Windows](#windows)
    - [macOS](#macos)
@@ -102,8 +109,8 @@ Introduces un correo electrónico y OsintFlow:
 
 Introduces una **IP** o un **dominio** y OsintFlow detecta automáticamente cuál de los dos es. Luego:
 
-- **Para una IP**: obtiene la **geolocalización aproximada** (país, región, ciudad, coordenadas), el **ISP**, la organización y el número de **sistema autónomo (AS)**, y hace un **reverse DNS**.
-- **Para un dominio**: consulta los registros DNS (**A, MX, TXT, NS**), obtiene la información **WHOIS/RDAP** (registrar, fecha de creación, expiración, name servers, estado), geolocaliza la IP a la que apunta y **detecta si está protegido por Cloudflare u otro WAF** (Firewall de Aplicaciones Web) analizando tanto la IP resuelta como las cabeceras HTTP.
+- **Para una IP**: obtiene la **geolocalización aproximada** (país, región, ciudad, coordenadas), el **ISP**, la organización y el número de **sistema autónomo (AS)**, hace un **reverse DNS** y muestra la ubicación en un **mapa oscuro interactivo** (Leaflet con tiles CartoDB Dark Matter) con un marcador en las coordenadas.
+- **Para un dominio**: consulta los registros DNS (**A, MX, TXT, NS**), obtiene la información **WHOIS/RDAP** (registrar, fecha de creación, expiración, name servers, estado), geolocaliza la IP a la que apunta (con mapa), y **detecta si está protegido por Cloudflare u otro WAF** (Firewall de Aplicaciones Web) analizando tanto la IP resuelta como las cabeceras HTTP.
 
 **Caso de uso real:**
 
@@ -150,7 +157,117 @@ Arrastras o seleccionas una imagen (JPG, PNG, TIFF, HEIC) y OsintFlow extrae **t
 
 ---
 
-### 6. Historial y Exportación
+### 6. Analizador de Enlaces (URL Unshortener & Wayback)
+
+**¿Qué hace?**
+
+Pegas una URL acortada (bit.ly, tinyurl, t.co...) o cualquier enlace y OsintFlow:
+
+1. **Sigue las redirecciones en el servidor** (sin que tengas que abrir el enlace en tu navegador), mostrándote la **cadena completa** de saltos con sus códigos de estado.
+2. Revela la **URL final real** a la que apunta el enlace acortado.
+3. Intenta extraer el **título** de la página de destino.
+4. Consulta la **API de Wayback Machine** para mostrarte **capturas históricas** de esa web y un enlace al calendario completo de archivados.
+
+**Caso de uso real:**
+
+> Recibes un mensaje con un enlace `bit.ly/3pJ4q8P` y no confías. Lo pegas en el Analizador de Enlaces y descubres que redirige a una web de phishing rusa. Gracias a Wayback Machine, además, ves cómo era esa web hace 6 meses, cuando todavía era una tienda legítima antes de ser comprometida.
+
+---
+
+### 7. Búsqueda Inversa de Imágenes (Reverse Image Search)
+
+**¿Qué hace?**
+
+Subes una imagen o pegas su URL y OsintFlow genera **enlaces listos para hacer clic** hacia las búsquedas inversas de los cuatro motores principales:
+
+- **Google Lens** — la mejor cobertura general.
+- **Yandex** — el mejor para reconocimiento facial y rostros.
+- **TinEye** — especializado en encontrar duplicados exactos.
+- **Bing Visual Search** — alternativa de Microsoft.
+
+**Caso de uso real:**
+
+> Conoces a alguien en una app de citas cuya foto de perfil parece sacada de un catálogo de stock. La subes a la Búsqueda Inversa y abres Yandex: descubres que la foto pertenece a un modelo de una agencia. La identidad de esa persona es falsa.
+
+---
+
+### 8. Generador de Google Dorks (Dork Builder)
+
+**¿Qué hace?**
+
+Una interfaz visual donde rellenas campos (dominio, palabras clave, tipo de archivo, términos en el título o la URL, términos a excluir) y OsintFlow **construye automáticamente** la sintaxis de búsqueda avanzada de Google (Dorks). Por ejemplo: `site:ejemplo.com filetype:pdf "confidencial" -ventas`.
+
+Incluye **ejemplos rápidos** predefinidos (documentos PDF confidenciales, archivos de configuración expuestos, listados de directorios, archivos SQL, etc.) y un botón que **abre la búsqueda directamente en Google**.
+
+**Caso de uso real:**
+
+> Quieres ver si tu universidad tiene documentos PDF expuestos en su web. En el Generador de Dorks pones `site:miuniversidad.edu`, filetype `pdf` y palabras clave `examen`. Con un clic abres Google con el Dork construido y encuentras exámenes de años anteriores indexados públicamente.
+
+---
+
+### 9. Escáner de Subdominios y SSL
+
+**¿Qué hace?**
+
+Introduces un dominio principal (ej. `apple.com`) y OsintFlow consulta los **Certificate Transparency Logs** (registros de transparencia de certificados SSL) a través del servicio gratuito **crt.sh**. Devuelve una lista de **todos los subdominios** para los que se ha emitido un certificado: `dev.apple.com`, `mail.internal.apple.com`, `admin.apple.com`, etc.
+
+**Caso de uso real:**
+
+> Estás haciendo un pentest autorizado sobre una empresa. Escaneas su dominio y descubres `staging.empresa.com` y `vpn-test.empresa.com`, dos entornos que la empresa no sabía que estaban expuestos. Estos subdominios suelen tener configuraciones de seguridad más débiles que producción.
+
+---
+
+### 10. Extractor de Metadatos de Documentos
+
+**¿Qué hace?**
+
+Igual que el extractor EXIF pero para **documentos**: acepta **PDF, Word (.docx), Excel (.xlsx) y PowerPoint (.pptx)**. Extrae:
+
+- **Autor original** y último modificador.
+- **Fechas de creación y modificación**.
+- **Software usado** (ej. "Adobe Illustrator 2023", "Microsoft Office Word", "pdfTeX").
+- Empresa, manager, número de páginas/diapositivas, revisión, etc.
+
+**Caso de uso real:**
+
+> Recibes un documento PDF anónimo denunciando irregularidades. Lo subes al extractor y descubres que el autor original es "J. Pérez", que se creó con "Microsoft Word 2019" y la fecha de creación es de hace dos años. Esa pista te permite identificar al autor pese al anonimato.
+
+---
+
+### 11. Comprobador de Filtraciones (HaveIBeenPwned)
+
+**¿Qué hace?**
+
+Introduces un correo electrónico y OsintFlow consulta la base de datos de **HaveIBeenPwned** (HIBP), el servicio de referencia mundial para filtraciones de datos. Devuelve la lista de **brechas en las que aparece el correo**: LinkedIn, Adobe, Dropbox, Yahoo, etc., junto con **qué tipo de datos se expusieron** (contraseñas, teléfonos, fechas de nacimiento, geolocalización...).
+
+- Si configuras una **API key de HIBP** (variable de entorno `HIBP_API_KEY`), la consulta se hace en **tiempo real** contra la API oficial.
+- Si no hay API key, usa una **base de datos local** de muestra con las filtraciones más conocidas.
+
+**Caso de uso real:**
+
+> Un amigo teme que su cuenta haya sido comprometida. Introduces su correo en el comprobador y ves que aparece en la filtración de LinkedIn (2021) y de Adobe (2013). Le aconsejas cambiar la contraseña en todos los sitios donde reutilizó la misma, porque esas credenciales ya circulan por internet.
+
+---
+
+### 12. Buscador de Claves PGP
+
+**¿Qué hace?**
+
+Introduces un email y OsintFlow consulta servidores públicos de claves (**keys.openpgp.org** y **keyserver.ubuntu.com**). Si la persona tiene una clave PGP asociada, extrae:
+
+- **Huella digital** (fingerprint) de la clave.
+- **Algoritmo** (RSA, EdDSA, ECDSA...) y longitud.
+- **Fechas** de creación y caducidad.
+- **Identidades** (user IDs), que suelen incluir el **nombre real** y a veces la empresa.
+- La **clave pública completa** en formato ASCII armor, lista para copiar.
+
+**Caso de uso real:**
+
+> Estás investigando a un desarrollador de software libre del que solo conoces el correo. Lo buscas en el Buscador de PGP y encuentras su clave: el user ID revela su nombre completo y la fecha de creación de la clave coincide con la actividad que viste en GitHub. Confirmas así la identidad real detrás del alias.
+
+---
+
+### 13. Historial y Exportación
 
 **¿Qué hace?**
 

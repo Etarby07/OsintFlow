@@ -11,6 +11,12 @@ import {
   Radar,
   Github,
   ShieldAlert,
+  Link2,
+  ScanSearch,
+  SearchCode,
+  Network,
+  FileText,
+  KeyRound,
 } from "lucide-react";
 import { ToolId, TOOLS } from "@/lib/osint/types";
 import { useState } from "react";
@@ -21,6 +27,13 @@ import { PhoneLookupTool } from "@/components/osint/phone-lookup";
 import { ExifExtractorTool } from "@/components/osint/exif-extractor";
 import { HistoryPanel } from "@/components/osint/history-panel";
 import { Dashboard } from "@/components/osint/dashboard";
+import { LinkAnalyzerTool } from "@/components/osint/link-analyzer";
+import { DorkBuilderTool } from "@/components/osint/dork-builder";
+import { ReverseImageTool } from "@/components/osint/reverse-image";
+import { PgpKeysTool } from "@/components/osint/pgp-keys";
+import { SubdomainScannerTool } from "@/components/osint/subdomain-scanner";
+import { HibpCheckerTool } from "@/components/osint/hibp-checker";
+import { DocMetadataTool } from "@/components/osint/doc-metadata";
 
 const ICONS: Record<ToolId, React.ElementType> = {
   dashboard: LayoutDashboard,
@@ -29,6 +42,13 @@ const ICONS: Record<ToolId, React.ElementType> = {
   ipdomain: Globe,
   phone: Phone,
   exif: ImageIcon,
+  link: Link2,
+  image: ScanSearch,
+  dorks: SearchCode,
+  subdomain: Network,
+  document: FileText,
+  hibp: ShieldAlert,
+  pgp: KeyRound,
   history: History,
 };
 
@@ -121,6 +141,13 @@ export default function Home() {
               {active === "ipdomain" && <IpDomainTool />}
               {active === "phone" && <PhoneLookupTool />}
               {active === "exif" && <ExifExtractorTool />}
+              {active === "link" && <LinkAnalyzerTool />}
+              {active === "image" && <ReverseImageTool />}
+              {active === "dorks" && <DorkBuilderTool />}
+              {active === "subdomain" && <SubdomainScannerTool />}
+              {active === "document" && <DocMetadataTool />}
+              {active === "hibp" && <HibpCheckerTool />}
+              {active === "pgp" && <PgpKeysTool />}
               {active === "history" && <HistoryPanel />}
             </div>
           </div>

@@ -6,6 +6,13 @@ export type ToolId =
   | "ipdomain"
   | "phone"
   | "exif"
+  | "link"
+  | "image"
+  | "dorks"
+  | "subdomain"
+  | "document"
+  | "hibp"
+  | "pgp"
   | "history";
 
 export interface ToolMeta {
@@ -33,7 +40,7 @@ export const TOOLS: ToolMeta[] = [
   {
     id: "ipdomain",
     label: "IP y Dominio",
-    description: "WHOIS, DNS, geolocalización y detección de WAF.",
+    description: "WHOIS, DNS, geolocalización en mapa y detección de WAF.",
   },
   {
     id: "phone",
@@ -44,6 +51,41 @@ export const TOOLS: ToolMeta[] = [
     id: "exif",
     label: "Metadatos EXIF",
     description: "Extrae metadatos ocultos de imágenes (GPS, cámara...).",
+  },
+  {
+    id: "link",
+    label: "Analizador de Enlaces",
+    description: "Sigue redirecciones de URLs acortadas y consulta Wayback.",
+  },
+  {
+    id: "image",
+    label: "Búsqueda Inversa de Imágenes",
+    description: "Genera enlaces de búsqueda inversa en Google, Yandex, TinEye y Bing.",
+  },
+  {
+    id: "dorks",
+    label: "Generador de Dorks",
+    description: "Construye operadores de búsqueda avanzada de Google.",
+  },
+  {
+    id: "subdomain",
+    label: "Escáner de Subdominios",
+    description: "Descubre subdominios vía Certificate Transparency (crt.sh).",
+  },
+  {
+    id: "document",
+    label: "Metadatos de Documentos",
+    description: "Extrae metadatos de PDF, Word y Excel (autor, fechas, software).",
+  },
+  {
+    id: "hibp",
+    label: "Filtraciones HIBP",
+    description: "Comprueba correos en filtraciones con HaveIBeenPwned.",
+  },
+  {
+    id: "pgp",
+    label: "Claves PGP",
+    description: "Busca claves públicas PGP asociadas a un email.",
   },
   {
     id: "history",

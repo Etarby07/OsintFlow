@@ -9,6 +9,13 @@ import {
   History,
   Radar,
   ArrowRight,
+  Link2,
+  ScanSearch,
+  SearchCode,
+  Network,
+  FileText,
+  ShieldAlert,
+  KeyRound,
 } from "lucide-react";
 import { ToolId, TOOLS } from "@/lib/osint/types";
 import { Card } from "@/components/ui/card";
@@ -20,6 +27,13 @@ const ICONS: Record<ToolId, React.ElementType> = {
   ipdomain: Globe,
   phone: Phone,
   exif: ImageIcon,
+  link: Link2,
+  image: ScanSearch,
+  dorks: SearchCode,
+  subdomain: Network,
+  document: FileText,
+  hibp: ShieldAlert,
+  pgp: KeyRound,
   history: History,
 };
 
@@ -41,9 +55,10 @@ export function Dashboard({
         </div>
         <p className="text-muted-foreground max-w-2xl">
           Un panel centralizado de inteligencia de fuentes abiertas (OSINT).
-          Reúne seis herramientas de investigación en una interfaz minimalista:
+          Reúne trece herramientas de investigación en una interfaz minimalista:
           busca usuarios en redes sociales, analiza correos, reconoce IPs y
-          dominios, localiza teléfonos y extrae metadatos de imágenes.
+          dominios, localiza teléfonos, extrae metadatos de imágenes y
+          documentos, sigue enlaces acortados, escanea subdominios y mucho más.
         </p>
       </header>
 

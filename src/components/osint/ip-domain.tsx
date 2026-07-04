@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Globe, Loader2, Search, MapPin, Server, Cloud, Shield } from "lucide-react";
 import { ToolShell } from "@/components/osint/tool-shell";
+import { MapView } from "@/components/osint/map-view";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -245,6 +246,21 @@ export function IpDomainTool() {
                   )}
                 </TableBody>
               </Table>
+              {result.geo.lat != null && result.geo.lon != null && (
+                <div className="mt-4">
+                  <MapView
+                    lat={result.geo.lat}
+                    lon={result.geo.lon}
+                    label={`${result.geo.city ? result.geo.city + ", " : ""}${
+                      result.geo.country ?? ""
+                    }`}
+                  />
+                  <p className="text-xs text-muted-foreground mt-2">
+                    Ubicación aproximada del servidor/IP. La precisión varía según
+                    el ISP; no representa la ubicación de una persona.
+                  </p>
+                </div>
+              )}
             </Card>
           )}
 
