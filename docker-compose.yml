@@ -1,0 +1,32 @@
+# ============================================================
+# OsintFlow — docker-compose.yml
+# Levanta la aplicación completa con un único comando:
+#   docker-compose up -d
+# ============================================================
+
+services:
+  osintflow:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: osintflow
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=file:/app/data/osintflow.db
+      - NEXT_TELEMETRY_DISABLED=1
+    volumes:
+      # Persiste la base de datos SQLite entre reinicios del contenedor.
+      - osintflow_data:/app/data
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+volumes:
+  osintflow_data:
+    driver: local

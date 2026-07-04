@@ -1,0 +1,23 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// OsintFlow - OSINT investigation history
+model Investigation {
+  id        String   @id @default(cuid())
+  tool      String   // "user" | "email" | "ipdomain" | "phone" | "exif"
+  query     String   // The input value searched by the user
+  results   String   // JSON stringified results
+  createdAt DateTime @default(now())
+
+  @@index([tool])
+  @@index([createdAt])
+}
