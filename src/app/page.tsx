@@ -35,42 +35,46 @@ import {
 } from "lucide-react";
 import {
   ToolId,
-  ToolCategory,
   TOOLS,
   CATEGORY_ORDER,
 } from "@/lib/osint/types";
 import { useState } from "react";
-import { UserSearchTool } from "@/components/osint/user-search";
-import { EmailAnalysisTool } from "@/components/osint/email-analysis";
-import { IpDomainTool } from "@/components/osint/ip-domain";
-import { PhoneLookupTool } from "@/components/osint/phone-lookup";
-import { ExifExtractorTool } from "@/components/osint/exif-extractor";
-import { HistoryPanel } from "@/components/osint/history-panel";
+import dynamic from "next/dynamic";
 import { Dashboard } from "@/components/osint/dashboard";
-import { LinkAnalyzerTool } from "@/components/osint/link-analyzer";
-import { DorkBuilderTool } from "@/components/osint/dork-builder";
-import { ReverseImageTool } from "@/components/osint/reverse-image";
-import { PgpKeysTool } from "@/components/osint/pgp-keys";
-import { SubdomainScannerTool } from "@/components/osint/subdomain-scanner";
-import { HibpCheckerTool } from "@/components/osint/hibp-checker";
-import { DocMetadataTool } from "@/components/osint/doc-metadata";
-import { TechStackTool } from "@/components/osint/tech-stack";
-import { HttpHeadersTool } from "@/components/osint/http-headers";
-import { WebcamDorkerTool } from "@/components/osint/webcam-dorker";
-import { DecoderTool } from "@/components/osint/decoder";
-import { AnonymityTool } from "@/components/osint/anonymity-detector";
-import { WifiLocatorTool } from "@/components/osint/wifi-locator";
-import { PastebinScannerTool } from "@/components/osint/pastebin-scanner";
-import { DarkWebTool } from "@/components/osint/darkweb-search";
-import { WhoisHistoryTool } from "@/components/osint/whois-history";
-import { PepCheckTool } from "@/components/osint/pep-check";
-import { TrackingTool } from "@/components/osint/tracking";
-import { CallerIdTool } from "@/components/osint/caller-id";
-import { EmailGenTool } from "@/components/osint/emailgen";
-import { StegoTool } from "@/components/osint/stego-analyzer";
-import { DirBusterTool } from "@/components/osint/dirbuster";
-import { SettingsPanel } from "@/components/osint/settings-panel";
 import { WelcomeDialog } from "@/components/osint/welcome-dialog";
+
+// Lazy-load every tool component so only the active one is compiled and kept
+// in memory. This prevents the OOM kills that happened when all 28 tools were
+// imported statically.
+const UserSearchTool = dynamic(() => import("@/components/osint/user-search").then(m => m.UserSearchTool), { ssr: false });
+const EmailAnalysisTool = dynamic(() => import("@/components/osint/email-analysis").then(m => m.EmailAnalysisTool), { ssr: false });
+const IpDomainTool = dynamic(() => import("@/components/osint/ip-domain").then(m => m.IpDomainTool), { ssr: false });
+const PhoneLookupTool = dynamic(() => import("@/components/osint/phone-lookup").then(m => m.PhoneLookupTool), { ssr: false });
+const ExifExtractorTool = dynamic(() => import("@/components/osint/exif-extractor").then(m => m.ExifExtractorTool), { ssr: false });
+const HistoryPanel = dynamic(() => import("@/components/osint/history-panel").then(m => m.HistoryPanel), { ssr: false });
+const LinkAnalyzerTool = dynamic(() => import("@/components/osint/link-analyzer").then(m => m.LinkAnalyzerTool), { ssr: false });
+const DorkBuilderTool = dynamic(() => import("@/components/osint/dork-builder").then(m => m.DorkBuilderTool), { ssr: false });
+const ReverseImageTool = dynamic(() => import("@/components/osint/reverse-image").then(m => m.ReverseImageTool), { ssr: false });
+const PgpKeysTool = dynamic(() => import("@/components/osint/pgp-keys").then(m => m.PgpKeysTool), { ssr: false });
+const SubdomainScannerTool = dynamic(() => import("@/components/osint/subdomain-scanner").then(m => m.SubdomainScannerTool), { ssr: false });
+const HibpCheckerTool = dynamic(() => import("@/components/osint/hibp-checker").then(m => m.HibpCheckerTool), { ssr: false });
+const DocMetadataTool = dynamic(() => import("@/components/osint/doc-metadata").then(m => m.DocMetadataTool), { ssr: false });
+const TechStackTool = dynamic(() => import("@/components/osint/tech-stack").then(m => m.TechStackTool), { ssr: false });
+const HttpHeadersTool = dynamic(() => import("@/components/osint/http-headers").then(m => m.HttpHeadersTool), { ssr: false });
+const WebcamDorkerTool = dynamic(() => import("@/components/osint/webcam-dorker").then(m => m.WebcamDorkerTool), { ssr: false });
+const DecoderTool = dynamic(() => import("@/components/osint/decoder").then(m => m.DecoderTool), { ssr: false });
+const AnonymityTool = dynamic(() => import("@/components/osint/anonymity-detector").then(m => m.AnonymityTool), { ssr: false });
+const WifiLocatorTool = dynamic(() => import("@/components/osint/wifi-locator").then(m => m.WifiLocatorTool), { ssr: false });
+const PastebinScannerTool = dynamic(() => import("@/components/osint/pastebin-scanner").then(m => m.PastebinScannerTool), { ssr: false });
+const DarkWebTool = dynamic(() => import("@/components/osint/darkweb-search").then(m => m.DarkWebTool), { ssr: false });
+const WhoisHistoryTool = dynamic(() => import("@/components/osint/whois-history").then(m => m.WhoisHistoryTool), { ssr: false });
+const PepCheckTool = dynamic(() => import("@/components/osint/pep-check").then(m => m.PepCheckTool), { ssr: false });
+const TrackingTool = dynamic(() => import("@/components/osint/tracking").then(m => m.TrackingTool), { ssr: false });
+const CallerIdTool = dynamic(() => import("@/components/osint/caller-id").then(m => m.CallerIdTool), { ssr: false });
+const EmailGenTool = dynamic(() => import("@/components/osint/emailgen").then(m => m.EmailGenTool), { ssr: false });
+const StegoTool = dynamic(() => import("@/components/osint/stego-analyzer").then(m => m.StegoTool), { ssr: false });
+const DirBusterTool = dynamic(() => import("@/components/osint/dirbuster").then(m => m.DirBusterTool), { ssr: false });
+const SettingsPanel = dynamic(() => import("@/components/osint/settings-panel").then(m => m.SettingsPanel), { ssr: false });
 
 const ICONS: Record<ToolId, React.ElementType> = {
   dashboard: LayoutDashboard,

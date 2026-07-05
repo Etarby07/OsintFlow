@@ -1,36 +1,6 @@
 "use client";
 
-import {
-  UserSearch,
-  Mail,
-  Globe,
-  Phone,
-  Image as ImageIcon,
-  History,
-  Radar,
-  ArrowRight,
-  Link2,
-  ScanSearch,
-  SearchCode,
-  Network,
-  FileText,
-  KeyRound,
-  Cpu,
-  Shield,
-  Video,
-  Braces,
-  EyeOff,
-  Wifi,
-  FileSearch,
-  Ghost,
-  UserCheck,
-  PlaneTakeoff,
-  PhoneCall,
-  AtSign,
-  ScanLine,
-  FolderSearch,
-  Settings,
-} from "lucide-react";
+import { Radar, ArrowRight } from "lucide-react";
 import {
   ToolId,
   ToolCategory,
@@ -38,39 +8,6 @@ import {
   CATEGORY_ORDER,
 } from "@/lib/osint/types";
 import { Card } from "@/components/ui/card";
-
-const ICONS: Record<ToolId, React.ElementType> = {
-  dashboard: Radar,
-  user: UserSearch,
-  email: Mail,
-  phone: Phone,
-  callerid: PhoneCall,
-  pgp: KeyRound,
-  pep: UserCheck,
-  emailgen: AtSign,
-  ipdomain: Globe,
-  anonymity: EyeOff,
-  subdomain: Network,
-  whoishistory: History,
-  techstack: Cpu,
-  headers: Shield,
-  dirbuster: FolderSearch,
-  exif: ImageIcon,
-  document: FileText,
-  stego: ScanLine,
-  image: ScanSearch,
-  webcam: Video,
-  hibp: Shield,
-  pastebin: FileSearch,
-  darkweb: Ghost,
-  link: Link2,
-  dorks: SearchCode,
-  decoder: Braces,
-  wifi: Wifi,
-  tracking: PlaneTakeoff,
-  history: History,
-  settings: Settings,
-};
 
 const CATEGORY_DESCRIPTIONS: Record<ToolCategory, string> = {
   Sistema: "Inicio y configuración de la aplicación.",
@@ -96,9 +33,7 @@ export function Dashboard({
   const tools = TOOLS.filter(
     (t) => t.id !== "dashboard" && t.id !== "settings"
   );
-  const toolCount = TOOLS.filter(
-    (t) => t.id !== "dashboard"
-  ).length;
+  const toolCount = TOOLS.filter((t) => t.id !== "dashboard").length;
 
   return (
     <section className="flex flex-col gap-8">
@@ -131,7 +66,6 @@ export function Dashboard({
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {catTools.map((tool) => {
-                const Icon = ICONS[tool.id];
                 return (
                   <Card
                     key={tool.id}
@@ -139,8 +73,8 @@ export function Dashboard({
                     onClick={() => onNavigate(tool.id)}
                   >
                     <div className="flex items-start justify-between mb-4">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-md border border-border bg-muted/40">
-                        <Icon className="h-5 w-5" />
+                      <div className="flex h-10 w-10 items-center justify-center rounded-md border border-border bg-muted/40 text-xs font-mono uppercase">
+                        {tool.id.slice(0, 2)}
                       </div>
                       <ArrowRight className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
                     </div>
